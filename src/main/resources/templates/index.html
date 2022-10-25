@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>URL Shortener Service</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div data-th-align="center">
+    <div>
+        <nav>
+            <div>
+                <a th:href="@{/logout}">Logout</a>
+            </div>
+        </nav>
+    </div>
+    <br>
+    <div>
+        <div>
+            <form th:action="@{/}" method="post">
+                <label>
+                    <input type="text" placeholder="Enter URL" name="original">
+                </label>
+                <br>
+                <br>
+                <button type="submit">Create shorter URL</button>
+            </form>
+            <br>
+            <span  th:if="${shortUrl != null && #strings.isEmpty(shortUrl) == false}"
+                  th:text="${shortUrl}"></span>
+        </div>
+        <br>
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Original URL</th>
+                    <th scope="col">Short URL</th>
+                    <th scope="col">Option</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="shortUrl, custStat: ${listShortUrls}">
+                    <td th:text="${custStat.index+1}">
+                    <td th:text="${shortUrl.getOriginalUrl()}"></td>
+                    <td th:text="${#httpServletRequest.scheme}+'://'+${#httpServletRequest.serverName}+':'+${#httpServletRequest.serverPort}+'/'+${shortUrl.hash}"></td>
+                    <td>
+                        <form action="#" th:action="@{'delete/{hash}'(hash=${shortUrl.hash})}" th:method="POST">
+                            <button type="submit"> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div data-th-align="center" th:if="${#lists.isEmpty(listShortUrls)}">
+    No short urls
+</div>
+</body>
+</html>

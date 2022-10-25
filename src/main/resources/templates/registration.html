@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<br>
+<div data-th-align="center">
+    <div>
+        <div>
+            <span th:if="${existUser != null && #strings.isEmpty(existUser) == false}" th:text="${existUser}"></span>
+            <div th:if="${param.success}">
+                <div>You've successfully registered to our awesome app!
+                </div>
+            </div>
+            <h1>Registration</h1>
+            <br>
+            <form th:action="@{/registration}" method="post" th:object="${user}">
+                <div>
+                    <label for="login"> Login </label> <input id="login" th:field="*{login}" autofocus="autofocus"/>
+                </div>
+                <br>
+                <div>
+                    <label for="password"> Password </label> <input id="password" type="password" th:field="*{password}" required autofocus="autofocus"/>
+                </div>
+                <br>
+                <div>
+                    <label for="name"> Name </label> <input id="name"  th:field="*{name}" autofocus="autofocus"/>
+                </div>
+                <br>
+                <div >
+                    <button type="submit" >Register</button>
+                    <br>
+                    <br>
+                    <span>Already registered? <a href="/" th:href="@{/login}">Login here</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
